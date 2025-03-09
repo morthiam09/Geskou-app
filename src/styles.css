@@ -1,1 +1,85 @@
 /* You can add global styles to this file, and also import other style files */
+html {
+  scroll-behavior: smooth;
+}
+body {
+  padding-top: 56px;;
+}
+
+.bg-custom {
+  background-color: #f3eef1 !important
+}
+
+.hero {
+  
+    background:  linear-gradient(rgba(255, 255, 255, 0.3), #bea1b7),
+                  url('assets/images/grid_bg.webp');
+    background-size: cover;
+    background-position: center;              
+    mix-blend-mode: multiply;
+    min-height: 600px;
+    padding: 120px 20px;
+       
+    h1 {
+      font-weight: 500;
+      line-height: 1.2;
+    }
+    /* Pour les écrans mobiles */
+    @media (max-width: 768px) {
+      min-height: 400px;
+      padding: 80px 15px;
+    }
+  }
+  
+  .features, .results {
+    .card {
+      transition: transform 0.3s;
+      
+      &:hover {
+        transform: translateY(-5px);
+      }
+    }
+  }
+  
+  .btn-custom {
+    background-color: #5b2c4f !important; /* Couleur de fond */
+    border-radius: 25px !important; /* Ajoute un border-radius (arrondir les coins) */
+    color: white !important; /* Couleur du texte */
+    border: none;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .btn-custom:hover {
+    background-color: #4a1f36 !important; /* Couleur de fond au survol (plus sombre) */
+    color: white !important; /* Garder la couleur du texte blanche au survol */
+  }
+  
+  .navbar {
+    background-color: rgba(91, 44, 79, 0.8) !important; /* Rendre la navbar transparente */
+    border-radius: 25px; /* Ajoute un border-radius (arrondir les coins) */
+    margin-top: 20px; /* Décaler la navbar du top */
+    margin-left: 20px; /* Décaler la navbar à gauche */
+    margin-right: 20px; /* Décaler la navbar à droite */
+    box-shadow: none; /* Supprimer l'ombre si elle est appliquée */
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Bordure fine (optionnel) */
+  }
+  /* Adaptation des couleurs des liens */
+.navbar-dark .nav-link {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.navbar-dark .nav-link:hover {
+  color: rgba(255, 255, 255, 1) !important;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+  @media (max-width: 991px) {
+    body {
+      padding-top: 72px;
+    }
+    .navbar {
+      margin-left: 10px; /* Réduit l'écart à gauche sur les petits écrans */
+      margin-right: 10px; /* Réduit l'écart à droite sur les petits écrans */
+    }
+  }
+  
