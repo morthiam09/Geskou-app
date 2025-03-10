@@ -1,11 +1,5 @@
 import { Component } from '@angular/core';
-
-export interface RawMaterial {
-  id: number;
-  name: string;
-  unitPrice: number;
-  unit: string;
-}
+import { RawMaterial } from '../../service/rawMaterials/raw-materials.service';
 
 @Component({
   selector: 'app-raw-material',

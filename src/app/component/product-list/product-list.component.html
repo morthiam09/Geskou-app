@@ -1,0 +1,13 @@
+<div class="card">
+    <div class="card-header bg-primary text-white">
+      Liste des Produits
+    </div>
+    <div class="card-body">
+      <ul class="list-group">
+        <li *ngFor="let product of products" class="list-group-item">
+          {{ product.name }} - {{ product.recommendedSellingPrice }} €
+        </li>
+      </ul>
+    </div>
+  </div>
+  

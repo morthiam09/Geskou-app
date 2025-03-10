@@ -1,0 +1,13 @@
+<div class="card">
+    <div class="card-header bg-success text-white">
+      Liste des Matières Premières
+    </div>
+    <div class="card-body">
+      <ul class="list-group">
+        <li *ngFor="let material of materials" class="list-group-item">
+          {{ material.name }} ({{ material.unit }})
+        </li>
+      </ul>
+    </div>
+  </div>
+  
