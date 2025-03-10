@@ -3,7 +3,8 @@ html {
   scroll-behavior: smooth;
 }
 body {
-  padding-top: 56px;;
+  padding-top: 56px;
+  background-color: #f3eef1 !important;
 }
 
 .bg-custom {
@@ -12,7 +13,7 @@ body {
 
 .hero {
     background:  linear-gradient(rgba(255, 255, 255, 0.3), #bea1b7),
-                  url('assets/images/grid_bg.webp');
+                  url('assets/images/grid_bg0.webp');
     background-size: cover;
     background-position: center;              
     mix-blend-mode: multiply;
@@ -70,6 +71,28 @@ body {
 .navbar-dark .nav-link:hover {
   color: rgba(255, 255, 255, 1) !important;
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+.card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+}
+
+.btn-outline-primary {
+  &:hover {
+    .bi {
+      animation: bounce 0.5s;
+    }
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
 }
 
   @media (max-width: 991px) {

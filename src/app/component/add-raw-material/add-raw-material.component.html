@@ -1,0 +1,38 @@
+<div class="container mt-4">
+  <h2>Nouvelle Matière Première</h2>
+  <form (ngSubmit)="onSubmit()" #materialForm="ngForm">
+    <div class="mb-3 row">
+      <div class="col-md-6">
+        <label class="form-label">Nom</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          name="materialName"
+          [(ngModel)]="materialName"
+          required
+          #nameInput="ngModel"
+          [class.is-invalid]="nameInput.invalid && nameInput.touched">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Unité</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          name="materialUnit"
+          [(ngModel)]="materialUnit"
+          required
+          #nameInput="ngModel"
+          [class.is-invalid]="nameInput.invalid && nameInput.touched">
+      </div>
+    </div>
+    <div *ngIf="errorMessage" class="alert alert-danger mt-2">
+      {{ errorMessage }}
+    </div>
+    <button 
+      type="submit" 
+      class="btn btn-primary"
+      [disabled]="materialForm.invalid">
+      Enregistrer
+    </button>
+  </form>
+</div>

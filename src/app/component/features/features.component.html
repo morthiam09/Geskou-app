@@ -1,7 +1,17 @@
 <section class="features py-5 bg-custom">
   <div class="container">    
     <div class="row">
-      <div class="col-md-4 mb-4">
+      
+      <div class="col-md-4 mb-4" (click)="goTo('manage-products')" style="cursor: pointer;">
+        <div class="card h-100">
+          <div class="card-body">
+            <h3 class="card-title">Gestion des produits et matières premières</h3>
+            <p class="card-text">Ajouter des produits et ajouter les matières premières qui les composent.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-4" routerLink="" style="cursor: pointer;">
         <div class="card h-100">
           <div class="card-body">
             <h3 class="card-title">Gestion des coûts</h3>
@@ -10,7 +20,7 @@
         </div>
       </div>
 
-      <div class="col-md-4 mb-4">
+      <div class="col-md-4 mb-4" routerLink="#" style="cursor: pointer;">
         <div class="card h-100">
           <div class="card-body">
             <h3 class="card-title">Simulation avancée</h3>
@@ -19,7 +29,7 @@
         </div>
       </div>
 
-      <div class="col-md-4 mb-4">
+      <div class="col-md-4 mb-4" routerLink="#" style="cursor: pointer;">
         <div class="card h-100">
           <div class="card-body">
             <h3 class="card-title">IA décisionnelle</h3>

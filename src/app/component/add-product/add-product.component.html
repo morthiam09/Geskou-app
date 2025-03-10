@@ -1,1 +1,84 @@
-<p>add-product works!</p>
+<div class="container mt-4">
+  <h2>Nouveau Produit</h2>
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    
+    <!-- Nom du produit -->
+    <div class="mb-3">
+      <label class="form-label">Nom du produit</label>
+      <input 
+        type="text" 
+        class="form-control" 
+        formControlName="name"
+        [class.is-invalid]="productForm.get('name')?.invalid && productForm.get('name')?.touched">
+    </div>
+
+    <!-- Liste des matières premières (tableau) -->
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th>Matière première</th>
+            <th>Pourcentage (%)</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody formArrayName="materials">
+          <tr *ngFor="let material of materialsArray.controls; let i = index" [formGroupName]="i">
+            <!-- Sélection de la matière première -->
+            <td>
+              <select class="form-select" formControlName="materialId">
+                <option value="">Choisir une matière</option>
+                <option *ngFor="let m of materials" [value]="m.id">
+                  {{ m.name }} ({{ m.unit }})
+                </option>
+              </select>
+            </td>
+
+            <!-- Champ de pourcentage -->
+            <td>
+              <input 
+                type="number" 
+                class="form-control"
+                formControlName="percentage"
+                placeholder="0 - 100">
+            </td>
+
+            <!-- Bouton suppression -->
+            <td class="text-center">
+              <button 
+                type="button" 
+                class="btn btn-danger btn-sm"
+                (click)="removeMaterial(i)">
+                <i class="bi bi-trash">Supprimer</i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Bouton Ajouter matière -->
+    <div class="mb-3">
+      <button type="button" class="btn btn-outline-primary" (click)="addMaterial()">
+        <i class="bi bi-plus-circle"></i> Ajouter une matière
+      </button>
+    </div>
+
+    <div *ngIf="productForm.invalid" class="alert alert-warning">
+      Le formulaire contient des erreurs. Vérifiez tous les champs avant de soumettre.
+    </div>
+    
+    <!-- Message d'erreur si le total des pourcentages est incorrect -->
+    <div *ngIf="materialsArray.hasError('totalInvalid')" class="alert alert-danger">
+      Le total des pourcentages doit être égal à 100% (Actuel: {{ getTotalPercentage() }}%).
+    </div>
+
+    <!-- Bouton d'enregistrement -->
+    <div>
+      <button type="submit" class="btn btn-primary" [disabled]="!productForm.valid">
+        Enregistrer le produit
+      </button>
+    </div>
+    
+  </form>
+</div>
