@@ -4,15 +4,16 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 export interface RawMaterial {
   id: number;
   name: string;
+  unitPrice: number;
   unit: string;
 }
 
 @Injectable({ providedIn: 'root' })
-export class MaterialsService {
+export class RawMaterialsService {
   private rawMaterials: RawMaterial[] = [
-    { id: 1, name: 'Sucre', unit: 'Kg' },
-    { id: 2, name: 'Farine', unit: 'Kg' },
-    { id: 3, name: 'Eau', unit: 'L' } // Correction : ID 3 au lieu de 2
+    { id: 1, name: 'Sucre', unit: 'Kg', unitPrice: 2.50 },
+    { id: 2, name: 'Farine', unit: 'Kg', unitPrice: 1.70 },
+    { id: 3, name: 'Eau', unit: 'L', unitPrice: 0.50 } 
   ];
 
   private materialsSubject = new BehaviorSubject<RawMaterial[]>(this.rawMaterials);
@@ -26,11 +27,12 @@ export class MaterialsService {
   }
 
   // Ajoute une nouvelle matière première et met à jour l'observable.
-  addMaterial(name: string, unit: string): void {
+  addMaterial(name: string, unit: string, unitPrice: number): void {
     const newMaterial: RawMaterial = {
       id: this.generateUniqueId(),
       name,
-      unit
+      unit,
+      unitPrice
     };
     
     this.rawMaterials = [...this.rawMaterials, newMaterial];

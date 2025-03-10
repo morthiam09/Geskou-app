@@ -1,31 +1,8 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
-import { MaterialsService, RawMaterial } from '../../service/materials/materials.service'; // Import du service
+import { RawMaterialsService, RawMaterial } from '../../service/rawMaterials/raw-materials.service'; // Import du service
 import { NgIf, NgFor } from '@angular/common';
 
-export interface Product {
-  id: number;
-  reference: string;
-  name: string;
-  percetageRawMaterials: PercentageRawMaterial[]; // Array au lieu de Set
-  productionCost: number;
-  recommendedSellingPrice: number;
-  profitMargin: number;
-  productionCostHistory: ProductionCost[]; // Array pour la liste historique
-}
-
-export interface PercentageRawMaterial {
-  id?: number; // Optionnel si pas de clé primaire
-  percentage: number;
-  rawMaterial: RawMaterial; // Supposons un modèle RawMaterial
-}
-
-export interface ProductionCost {
-  id?: number;
-  cost: number;
-  date: Date;
-  product: Product; // Relation bidirectionnelle
-}
 
 @Component({
   selector: 'app-add-product',
@@ -41,7 +18,7 @@ export class AddProductComponent {
 
   constructor(
     private fb: FormBuilder,
-    private materialsService: MaterialsService
+    private rawMaterialsService: RawMaterialsService
   ) {
     this.productForm = this.fb.group({
       name: ['', Validators.required],  // Nom du produit
@@ -52,7 +29,7 @@ export class AddProductComponent {
     });
 
     // Récupérer la liste des matières premières depuis le service
-    this.materialsService.getMaterials().subscribe((materials: RawMaterial[]) => {
+    this.rawMaterialsService.getMaterials().subscribe((materials: RawMaterial[]) => {
       this.materials = materials;
     });
   }
