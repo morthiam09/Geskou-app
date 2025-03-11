@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { RawMaterialsService } from '../../service/rawMaterials/raw-materials.service';
+import { RawMaterialsService, RawMaterial } from '../../service/rawMaterials/raw-materials.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-raw-material',
@@ -23,11 +24,15 @@ export class AddRawMaterialComponent {
   ) {}
 
   onSubmit(): void {
-    if (this.rawMaterialsService.materialExists(this.materialName)) {
-      this.errorMessage = 'Cette matière existe déjà';
-      return;
-    }
-    this.rawMaterialsService.addMaterial(this.materialName, this.materialUnit, this.materialUnitPrice);
-    this.router.navigate(['/manage-products']);
+    this.rawMaterialsService.materialExists(this.materialName).subscribe(exists => {
+      if (exists) {
+        this.errorMessage = 'Cette matière existe déjà';
+        return;
+      }
+
+      this.rawMaterialsService.addMaterial(this.materialName, this.materialUnit, this.materialUnitPrice).subscribe(() => {
+        this.router.navigate(['/manage-products']);
+      });
+    });
   }
 }

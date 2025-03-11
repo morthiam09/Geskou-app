@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClient } from '@angular/common/http';
 import { AddProductComponent } from './add-product.component';
 
 describe('AddProductComponent', () => {

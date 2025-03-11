@@ -1,8 +1,11 @@
+<div class="separator">
+  <hr class="my-4 border-custom"/>
+</div>
 <div class="container mt-4">
   <h2>Nouvelle Matière Première</h2>
   <form (ngSubmit)="onSubmit()" #materialForm="ngForm">
     <div class="mb-3 row">
-      <div class="col-md-6">
+      <div class="col-md-4">
         <label class="form-label">Nom</label>
         <input 
           type="text" 
@@ -13,7 +16,7 @@
           #nameInput="ngModel"
           [class.is-invalid]="nameInput.invalid && nameInput.touched">
       </div>
-      <div class="col-md-6">
+      <div class="col-md-4">
         <label class="form-label">Unité</label>
         <input 
           type="text" 
@@ -21,8 +24,19 @@
           name="materialUnit"
           [(ngModel)]="materialUnit"
           required
-          #nameInput="ngModel"
-          [class.is-invalid]="nameInput.invalid && nameInput.touched">
+          #unitInput="ngModel"
+          [class.is-invalid]="unitInput.invalid && unitInput.touched">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Prix Unitaire</label>
+        <input 
+          type="number" 
+          class="form-control" 
+          name="materialPrice"
+          [(ngModel)]="materialUnitPrice"
+          required
+          #priceInput="ngModel"
+          [class.is-invalid]="priceInput.invalid && priceInput.touched">
       </div>
     </div>
     <div *ngIf="errorMessage" class="alert alert-danger mt-2">
@@ -30,9 +44,12 @@
     </div>
     <button 
       type="submit" 
-      class="btn btn-primary"
+      class="btn btn-custom"
       [disabled]="materialForm.invalid">
       Enregistrer
     </button>
   </form>
+</div>
+<div class="separator">
+  <hr class="my-4 border-custom"/>
 </div>
