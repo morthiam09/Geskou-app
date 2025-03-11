@@ -1,3 +1,6 @@
+<div class="separator">
+  <hr class="my-4 border-custom"/>
+</div>
 <div class="container mt-4">
   <h2>Nouveau Produit</h2>
   <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
@@ -15,7 +18,7 @@
     <!-- Liste des matières premières (tableau) -->
     <div class="table-responsive">
       <table class="table table-bordered">
-        <thead class="table-dark">
+        <thead>
           <tr>
             <th>Matière première</th>
             <th>Pourcentage (%)</th>
@@ -75,10 +78,13 @@
 
     <!-- Bouton d'enregistrement -->
     <div>
-      <button type="submit" class="btn btn-primary" [disabled]="!productForm.valid">
+      <button type="submit" class="btn btn-custom" [disabled]="!productForm.valid">
         Enregistrer le produit
       </button>
     </div>
     
   </form>
+</div>
+<div class="separator">
+  <hr class="my-4 border-custom"/>
 </div>

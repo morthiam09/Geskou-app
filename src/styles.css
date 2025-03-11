@@ -10,6 +10,13 @@ body {
 .bg-custom {
   background-color: #f3eef1 !important
 }
+.bg-custom-dark {
+  background-color: #6e944b !important;
+}
+thead th {
+  background-color: #6e944b !important;
+  color: white !important;
+}
 
 .hero {
     background:  linear-gradient(rgba(255, 255, 255, 0.3), #bea1b7),
@@ -55,7 +62,7 @@ body {
   }
   
   .navbar {
-    background-color: rgba(91, 44, 79, 0.8) !important; /* Rendre la navbar transparente */
+    background-color: #5b2c4fcc !important; /* Rendre la navbar transparente */
     border-radius: 25px; /* Ajoute un border-radius (arrondir les coins) */
     margin-top: 20px; /* Décaler la navbar du top */
     margin-left: 20px; /* Décaler la navbar à gauche */
@@ -105,3 +112,7 @@ body {
     }
   }
   
+  .separator {
+    margin: auto; /* Espacement */
+    width: 80%; /* Étendre sur toute la largeur */
+  }

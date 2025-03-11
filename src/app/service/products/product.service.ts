@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RawMaterial } from '../rawMaterials/raw-materials.service';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 
 export interface Product {

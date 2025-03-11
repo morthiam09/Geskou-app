@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable, of, BehaviorSubject, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 export interface RawMaterial {
   id: number;
@@ -10,45 +11,37 @@ export interface RawMaterial {
 
 @Injectable({ providedIn: 'root' })
 export class RawMaterialsService {
-  private rawMaterials: RawMaterial[] = [
-    { id: 1, name: 'Sucre', unit: 'Kg', unitPrice: 2.50 },
-    { id: 2, name: 'Farine', unit: 'Kg', unitPrice: 1.70 },
-    { id: 3, name: 'Eau', unit: 'L', unitPrice: 0.50 } 
-  ];
-
-  private materialsSubject = new BehaviorSubject<RawMaterial[]>(this.rawMaterials);
-
-  constructor() {}
+  private apiUrl = 'http://localhost:8080/api/raw-materials'; // 🔹 URL de l'API Spring Boot
+  private materialsSubject = new BehaviorSubject<RawMaterial[]>([]); // Initialisation d'un BehaviorSubject
 
 
-  // Retourne la liste des matières premières en tant qu'Observable.
+  constructor(private http: HttpClient) {}
+
+  // Récupère toutes les matières premières depuis l'API
   getMaterials(): Observable<RawMaterial[]> {
+    return  this.http.get<RawMaterial[]>(this.apiUrl).pipe(
+      tap(materials => this.materialsSubject.next(materials)) // Met à jour le Subject
+    );
+  }
+
+  // Retourne l'Observable du Subject pour que les composants puissent se souscrire
+  getMaterialsSubject(): Observable<RawMaterial[]> {
     return this.materialsSubject.asObservable();
   }
 
-  // Ajoute une nouvelle matière première et met à jour l'observable.
-  addMaterial(name: string, unit: string, unitPrice: number): void {
-    const newMaterial: RawMaterial = {
-      id: this.generateUniqueId(),
-      name,
-      unit,
-      unitPrice
-    };
-    
-    this.rawMaterials = [...this.rawMaterials, newMaterial];
-    this.materialsSubject.next(this.rawMaterials); // Mise à jour de l'observable
-  }
-
+  // Ajoute une nouvelle matière première en envoyant une requête POST à l'API
+  addMaterial(name: string, unit: string, unitPrice: number): Observable<RawMaterial> {
+    const newMaterial: Partial<RawMaterial> = { name, unit, unitPrice };
+    return this.http.post<RawMaterial>(this.apiUrl, newMaterial).pipe(
+      tap(() => {
+        // Après ajout, on récupère à nouveau les données et on met à jour le Subject
+        this.getMaterials().subscribe();
+      })
+    );
+  };
   
-  // Vérifie si une matière première existe déjà (insensible à la casse).
-  materialExists(name: string): boolean {
-    return this.rawMaterials.some(m => m.name.toLowerCase() === name.toLowerCase());
-  }
-
-  // Génère un ID unique basé sur le plus grand ID existant.
-  private generateUniqueId(): number {
-    return this.rawMaterials.length > 0 
-      ? Math.max(...this.rawMaterials.map(m => m.id)) + 1 
-      : 1;
+  // Vérifie si une matière première existe déjà en appelant l'API
+  materialExists(name: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/exists?name=${name}`);
   }
 }
