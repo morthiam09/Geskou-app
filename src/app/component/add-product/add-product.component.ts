@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { RawMaterialsService, RawMaterial } from '../../service/rawMaterials/raw-materials.service'; // Import du service
 import { NgIf, NgFor } from '@angular/common';
+import { Product, ProductService } from '../../service/products/product.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,10 +20,13 @@ export class AddProductComponent {
 
   constructor(
     private fb: FormBuilder,
-    private rawMaterialsService: RawMaterialsService
+    private productService: ProductService,
+    private rawMaterialsService: RawMaterialsService,
+    private router: Router
   ) {
     this.productForm = this.fb.group({
-      name: ['', Validators.required],  // Nom du produit
+      reference: ['', Validators.required],  // Nom du produit
+      name: [''],
       materials: this.fb.array([
         this.createMaterialGroup()
       ], this.validateTotalPercentage)
@@ -64,6 +69,30 @@ export class AddProductComponent {
  onSubmit(): void {
   if (this.productForm.valid) {
     console.log('Produit créé:', this.productForm.value);
+    const formValues = this.productForm.value;
+
+     // Vérifie que l'objet produit est correctement formaté
+     const newProduct: Product = {
+      reference: formValues.reference,
+      name: formValues.name,
+      percentageRawMaterials: formValues.materials.map((mat: any) => ({
+        materialId: parseInt(mat.materialId, 10),
+        percentage: mat.percentage
+      }))
+    };
+
+    console.log("🟢 Produit prêt à être envoyé:", newProduct); // 🔍 Debug Angular
+
+    this.productService.addProduct(newProduct).subscribe(
+      (response) => {
+        console.log("✅ Produit ajouté:", response);
+        this.router.navigate(['/manage-products']);
+      },
+      (error) => {
+        console.error("❌ Erreur lors de l’ajout du produit:", error);
+      }
+    );
+
   } else {
     console.log('Formulaire invalide', this.productForm.errors);
   }

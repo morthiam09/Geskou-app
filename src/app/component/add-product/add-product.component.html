@@ -1,17 +1,21 @@
 <div class="separator">
-  <hr class="my-4 border-custom"/>
+  <hr class="my-4 border-custom" />
 </div>
 <div class="container mt-4">
-  <h2>Nouveau Produit</h2>
+  <h4>Nouveau Produit</h4>
   <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-    
+
+    <!-- Référence du produit -->
+    <div class="mb-3">
+      <label class="form-label">Référence du produit</label>
+      <input type="text" class="form-control" formControlName="reference"
+        [class.is-invalid]="productForm.get('reference')?.invalid && productForm.get('reference')?.touched">
+    </div>
+
     <!-- Nom du produit -->
     <div class="mb-3">
       <label class="form-label">Nom du produit</label>
-      <input 
-        type="text" 
-        class="form-control" 
-        formControlName="name"
+      <input type="text" class="form-control" formControlName="name"
         [class.is-invalid]="productForm.get('name')?.invalid && productForm.get('name')?.touched">
     </div>
 
@@ -39,19 +43,12 @@
 
             <!-- Champ de pourcentage -->
             <td>
-              <input 
-                type="number" 
-                class="form-control"
-                formControlName="percentage"
-                placeholder="0 - 100">
+              <input type="number" class="form-control" formControlName="percentage" placeholder="0 - 100">
             </td>
 
             <!-- Bouton suppression -->
             <td class="text-center">
-              <button 
-                type="button" 
-                class="btn btn-danger btn-sm"
-                (click)="removeMaterial(i)">
+              <button type="button" class="btn btn-danger btn-sm" (click)="removeMaterial(i)">
                 <i class="bi bi-trash">Supprimer</i>
               </button>
             </td>
@@ -68,9 +65,9 @@
     </div>
 
     <div *ngIf="productForm.invalid" class="alert alert-warning">
-      Le formulaire contient des erreurs. Vérifiez tous les champs avant de soumettre.
+      Le formulaire ne doit pas contenir d'erreurs. Vérifiez tous les champs avant de soumettre.
     </div>
-    
+
     <!-- Message d'erreur si le total des pourcentages est incorrect -->
     <div *ngIf="materialsArray.hasError('totalInvalid')" class="alert alert-danger">
       Le total des pourcentages doit être égal à 100% (Actuel: {{ getTotalPercentage() }}%).
@@ -82,9 +79,9 @@
         Enregistrer le produit
       </button>
     </div>
-    
+
   </form>
 </div>
 <div class="separator">
-  <hr class="my-4 border-custom"/>
+  <hr class="my-4 border-custom" />
 </div>
