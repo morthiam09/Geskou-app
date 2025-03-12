@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { RawMaterial } from '../../service/rawMaterials/raw-materials.service';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-raw-material',

@@ -1,2 +1,32 @@
 
+.btn-outline-primary {
+    color: #4a1f36; /* Texte */
+    border-color: #4a1f36; /* Bordure */
+    background-color: transparent;
+    border-radius: 25px; /* Arrondi des bords */
+    padding: 8px 16px; /* Ajustement du padding */
+    transition: all 0.3s ease-in-out; /* Animation fluide */
+  }
+  
+  .btn-outline-primary:hover {
+    background-color: #4a1f36; /* Fond au survol */
+    color: white; /* Texte blanc */
+    border-color: #4a1f36;
+  }
+  
+  .btn-outline-primary:focus,
+  .btn-outline-primary:active {
+    background-color: #3a152a; /* Fond plus foncé au focus */
+    border-color: #4a1f36;
+    color: white;
+    box-shadow: 0 0 5px rgba(74, 31, 54, 0.5); /* Effet focus */
+  }
+  
+  .btn-outline-primary:disabled {
+    opacity: 0.6;
+    border-color: #4a1f36;
+    color: #4a1f36;
+    background-color: transparent;
+  }
+
   

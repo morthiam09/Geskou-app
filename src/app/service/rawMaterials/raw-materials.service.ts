@@ -24,6 +24,7 @@ export class RawMaterialsService {
     );
   }
 
+  
   // Retourne l'Observable du Subject pour que les composants puissent se souscrire
   getMaterialsSubject(): Observable<RawMaterial[]> {
     return this.materialsSubject.asObservable();
@@ -38,7 +39,7 @@ export class RawMaterialsService {
         this.getMaterials().subscribe();
       })
     );
-  };
+  }
   
   // Vérifie si une matière première existe déjà en appelant l'API
   materialExists(name: string): Observable<boolean> {

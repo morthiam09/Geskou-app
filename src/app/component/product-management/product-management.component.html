@@ -1,27 +1,20 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-md-6">
-        <div class="card">
-          <div class="card-header bg-custom-dark text-white">
-            <h2>Gestion des Produits</h2>
-          </div>
-          <div class="card-body bg-custom">
-            <div class="d-grid gap-3">
+            <div class="d-grid gap-3 bg-custom">
               <button (click)="goTo('manage-products/add-raw')" class="btn btn-outline-primary btn-lg">
                 <i class="bi bi-box-seam me-2"></i>
                 Ajouter une Matière Première
               </button>
-              <button (click)="goTo('manage-products/add-product')" class="btn btn-outline-success btn-lg">
+              <button (click)="goTo('manage-products/add-product')" class="btn btn-outline-primary btn-lg">
                 <i class="bi bi-diagram-3 me-2"></i>
                 Ajouter un Produit
               </button>
             </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
-  
+   
 <!-- Zone de rendu des composants enfants -->
 <router-outlet></router-outlet>
 

@@ -2,6 +2,7 @@
 html {
   scroll-behavior: smooth;
 }
+
 body {
   padding-top: 56px;
   background-color: #f3eef1 !important;
@@ -10,67 +11,84 @@ body {
 .bg-custom {
   background-color: #f3eef1 !important
 }
+
 .bg-custom-dark {
   background-color: #6e944b !important;
 }
+
 thead th {
-  background-color: #6e944b !important;
+  background-color: #5b2c4fcc !important;
   color: white !important;
 }
 
 .hero {
-    background:  linear-gradient(rgba(255, 255, 255, 0.3), #bea1b7),
-                  url('assets/images/grid_bg0.webp');
-    background-size: cover;
-    background-position: center;              
-    mix-blend-mode: multiply;
-    min-height: 600px;
-    padding: 120px 20px;
-       
-    h1 {
-      font-weight: 500;
-      line-height: 1.2;
+  background: linear-gradient(rgba(255, 255, 255, 0.3), #bea1b7),
+    url('assets/images/grid_bg0.webp');
+  background-size: cover;
+  background-position: center;
+  mix-blend-mode: multiply;
+  min-height: 600px;
+  padding: 120px 20px;
+
+  h1 {
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  /* Pour les écrans mobiles */
+  @media (max-width: 768px) {
+    min-height: 400px;
+    padding: 80px 15px;
+  }
+}
+
+.features,
+.results {
+  .card {
+    transition: transform 0.3s;
+
+    &:hover {
+      transform: translateY(-5px);
     }
-    /* Pour les écrans mobiles */
-    @media (max-width: 768px) {
-      min-height: 400px;
-      padding: 80px 15px;
-    }
   }
-  
-  .features, .results {
-    .card {
-      transition: transform 0.3s;
-      
-      &:hover {
-        transform: translateY(-5px);
-      }
-    }
-  }
-  
-  .btn-custom {
-    background-color: #5b2c4f !important; /* Couleur de fond */
-    border-radius: 25px !important; /* Ajoute un border-radius (arrondir les coins) */
-    color: white !important; /* Couleur du texte */
-    border: none;
-    transition: background-color 0.3s ease-in-out;
-  }
-  
-  .btn-custom:hover {
-    background-color: #4a1f36 !important; /* Couleur de fond au survol (plus sombre) */
-    color: white !important; /* Garder la couleur du texte blanche au survol */
-  }
-  
-  .navbar {
-    background-color: #5b2c4fcc !important; /* Rendre la navbar transparente */
-    border-radius: 25px; /* Ajoute un border-radius (arrondir les coins) */
-    margin-top: 20px; /* Décaler la navbar du top */
-    margin-left: 20px; /* Décaler la navbar à gauche */
-    margin-right: 20px; /* Décaler la navbar à droite */
-    box-shadow: none; /* Supprimer l'ombre si elle est appliquée */
-    border: 1px solid rgba(0, 0, 0, 0.1); /* Bordure fine (optionnel) */
-  }
-  /* Adaptation des couleurs des liens */
+}
+
+.btn-custom {
+  background-color: #5b2c4f !important;
+  /* Couleur de fond */
+  border-radius: 25px !important;
+  /* Ajoute un border-radius (arrondir les coins) */
+  color: white !important;
+  /* Couleur du texte */
+  border: none;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.btn-custom:hover {
+  background-color: #4a1f36 !important;
+  /* Couleur de fond au survol (plus sombre) */
+  color: white !important;
+  /* Garder la couleur du texte blanche au survol */
+}
+
+.navbar {
+  background-color: #5b2c4fcc !important;
+  /* Rendre la navbar transparente */
+  border-radius: 25px;
+  /* Ajoute un border-radius (arrondir les coins) */
+  margin-top: 20px;
+  /* Décaler la navbar du top */
+  margin-left: 20px;
+  /* Décaler la navbar à gauche */
+  margin-right: 20px;
+  /* Décaler la navbar à droite */
+  box-shadow: none;
+  /* Supprimer l'ombre si elle est appliquée */
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  /* Bordure fine (optionnel) */
+}
+
+/* Adaptation des couleurs des liens */
 .navbar-dark .nav-link {
   color: rgba(255, 255, 255, 0.85) !important;
 }
@@ -82,10 +100,10 @@ thead th {
 
 .card {
   transition: transform 0.2s, box-shadow 0.2s;
-  
+
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -98,21 +116,33 @@ thead th {
 }
 
 @keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
 }
 
-  @media (max-width: 991px) {
-    body {
-      padding-top: 72px;
-    }
-    .navbar {
-      margin-left: 10px; /* Réduit l'écart à gauche sur les petits écrans */
-      margin-right: 10px; /* Réduit l'écart à droite sur les petits écrans */
-    }
+@media (max-width: 991px) {
+  body {
+    padding-top: 72px;
   }
-  
-  .separator {
-    margin: auto; /* Espacement */
-    width: 80%; /* Étendre sur toute la largeur */
+
+  .navbar {
+    margin-left: 10px;
+    /* Réduit l'écart à gauche sur les petits écrans */
+    margin-right: 10px;
+    /* Réduit l'écart à droite sur les petits écrans */
   }
+}
+
+.separator {
+  margin: auto;
+  /* Espacement */
+  width: 80%;
+  /* Étendre sur toute la largeur */
+}

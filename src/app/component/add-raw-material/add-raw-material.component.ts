@@ -3,7 +3,6 @@ import { RawMaterialsService, RawMaterial } from '../../service/rawMaterials/raw
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-raw-material',
