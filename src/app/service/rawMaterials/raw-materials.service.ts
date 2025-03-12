@@ -24,6 +24,7 @@ export class RawMaterialsService {
     );
   }
 
+  
   // Retourne l'Observable du Subject pour que les composants puissent se souscrire
   getMaterialsSubject(): Observable<RawMaterial[]> {
     return this.materialsSubject.asObservable();

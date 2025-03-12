@@ -66,37 +66,34 @@ export class AddProductComponent {
   }
 
 // Soumission du formulaire.
- onSubmit(): void {
+onSubmit(): void {
   if (this.productForm.valid) {
-    console.log('Produit créé:', this.productForm.value);
     const formValues = this.productForm.value;
 
-     // Vérifie que l'objet produit est correctement formaté
-     const newProduct: Product = {
+    const newProduct: Product = {
       reference: formValues.reference,
       name: formValues.name,
       percentageRawMaterials: formValues.materials.map((mat: any) => ({
-        materialId: parseInt(mat.materialId, 10),
+        rawMaterial: this.materials.find(m => m.id === +mat.materialId), // 🔹 Récupérer l’objet complet
         percentage: mat.percentage
       }))
     };
 
-    console.log("🟢 Produit prêt à être envoyé:", newProduct); // 🔍 Debug Angular
+    console.log("🟢 Produit envoyé :", JSON.stringify(newProduct, null, 2)); // 🔍 Vérification
 
     this.productService.addProduct(newProduct).subscribe(
       (response) => {
-        console.log("✅ Produit ajouté:", response);
-        this.router.navigate(['/manage-products']);
+        console.log('✅ Produit ajouté avec succès:', response);
       },
       (error) => {
-        console.error("❌ Erreur lors de l’ajout du produit:", error);
+        console.error('❌ Erreur lors de l’ajout du produit:', error);
       }
     );
-
   } else {
-    console.log('Formulaire invalide', this.productForm.errors);
+    console.error('❌ Formulaire invalide:', this.productForm.errors);
   }
 }
+
 
   // Calcule le total des pourcentages sélectionnés.
   getTotalPercentage(): number {
