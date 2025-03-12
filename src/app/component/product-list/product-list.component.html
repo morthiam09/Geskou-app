@@ -1,14 +1,18 @@
-<div class="card">
-    <div class="card-header bg-custom-dark text-white">
-      Liste des Produits
-    </div>
-    <div class="card-body">
-      <ul class="list-group">
-        <li *ngFor="let product of products" class="list-group-item">
-          {{ product.name }} - {{ product.recommendedSellingPrice }} €
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div style="margin-bottom: 20px;"></div>
-  
+<table class="table">
+  <thead>
+    <tr>
+      <th>Référence</th>
+      <th>Nom</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products">
+      <td>{{ product.reference }}</td>
+      <td>{{ product.name }}</td>
+      <td>
+        <button class="btn btn-danger" (click)="product.id !== undefined && onDelete(product.id)">Supprimer</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

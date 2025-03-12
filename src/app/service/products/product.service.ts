@@ -28,33 +28,45 @@ export interface ProductionCost {
   product: Product; // Relation bidirectionnelle
 }
 
+
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  private apiUrl = 'http://localhost:8080/api/products'; // URL de l'API Spring Boot
-  private productsSubject = new BehaviorSubject<Product[]>([]); // Initialisation d'un BehaviorSubject
+  private apiUrl = 'http://localhost:8080/api/products';
+  private productsSubject = new BehaviorSubject<Product[]>([]); // 🔹 Stocke la liste des produits
+  products$ = this.productsSubject.asObservable(); // 🔹 Observable pour souscription
 
   constructor(private http: HttpClient) { }
 
-  // Récupère tous les ptoduits depuis l'API et met à jour le `BehaviorSubject`
+  // 🔹 Récupère tous les produits et met à jour le BehaviorSubject
+  loadProducts(): void {
+    this.http.get<Product[]>(this.apiUrl).subscribe(products => {
+      this.productsSubject.next(products);
+    });
+  }
+
+  // 🔹 Retourne l'Observable du BehaviorSubject
   getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl).pipe(
-      tap(product => this.productsSubject.next(product)) // Met à jour le Subject
+    return this.products$;
+  }
+
+  // 🔹 Ajoute un produit et met à jour la liste après ajout
+  addProduct(product: Product): Observable<Product> {
+    return this.http.post<Product>(this.apiUrl, product).pipe(
+      tap(() => this.loadProducts()) // 🔹 Recharge la liste après ajout
     );
   }
 
-  // Retourne l'Observable du Subject pour que les composants puissent se souscrire
-  getProductsSubject(): Observable<Product[]> {
-    return this.productsSubject.asObservable();
+  // 🔹 Supprime un produit et met à jour la liste après suppression
+  deleteProduct(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+      tap(() => this.loadProducts()) // 🔹 Recharge la liste après suppression
+    );
   }
 
-  // Ajoute un nouveau produit en envoyant une requête POST à l'API
-  addProduct(newProduct : Product): Observable<Product> {
-    console.log("🟢 Envoi du produit à l'API:", JSON.stringify(newProduct, null, 2));
-    return this.http.post<Product>(this.apiUrl, newProduct).pipe(
-      tap(() => {
-        // Après ajout, on récupère à nouveau les données et on met à jour le Subject
-        this.getProducts().subscribe();
-      })
+  // 🔹 Met à jour un produit et recharge la liste
+  updateProduct(id: number, product: Product): Observable<Product> {
+    return this.http.put<Product>(`${this.apiUrl}/${id}`, product).pipe(
+      tap(() => this.loadProducts()) // 🔹 Recharge la liste après mise à jour
     );
   }
 
