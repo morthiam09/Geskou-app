@@ -1,0 +1,12 @@
+<div class="card product-card">
+    <div class="card-header text-white" style="background: linear-gradient(to right, #6e944b, #5b2c4fcc);">
+        <h5 class="mb-0">{{ product.name }}</h5>
+      </div>
+    <div class="card-body">
+      <p><strong>Référence :</strong> {{ product.reference }}</p>
+      <p><strong>Nom :</strong> {{ product.name }}</p>
+      <p><strong>Coût de Production :</strong> {{ product.productionCost }}</p>
+      <p><strong>Prix de Vente :</strong> {{ product.recommendedSellingPrice }}</p>
+      <button class="btn btn-custom" (click)="goToCostCalculation()">Calculer Coût</button>
+    </div>
+  </div>

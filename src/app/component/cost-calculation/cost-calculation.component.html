@@ -1,0 +1,61 @@
+<div class="container mt-4">
+    <div style="text-align: center; margin: 50px;">
+        <h4>Calcul du coût de production</h4>
+        <hr style="margin-left: 20%; margin-right: 20%;">
+    </div>
+    <!-- Étape 1 : Sélection des catégories -->
+    <div *ngIf="step === 0">
+        <p><strong>Choissez les coûts à inclure :</strong></p>
+      <div class="cost-category-container">
+        <div *ngFor="let category of costCategories" class="cost-category">
+          <input type="checkbox" [checked]="category.selected" (change)="toggleCategory(category)"> 
+          <label>{{ category.name }}</label>
+        </div>
+      </div>
+      
+      <button class="btn btn-custom mt-3" (click)="nextStep()">Suivant</button>
+    </div>
+  
+    <!-- Étape 2 : Saisie des coûts -->
+    <div *ngIf="step === 1">
+      <h4>Saisissez les coûts :</h4>
+      <form [formGroup]="costForm">
+        <div formArrayName="costs">
+          <div *ngFor="let cost of costsArray.controls; let i = index" [formGroupName]="i">
+            <label>{{ cost.value.name }}</label>
+            <input type="number" class="form-control" formControlName="value">
+          </div>
+        </div>
+      </form>
+      <button class="btn btn-outline-primary mt-3" (click)="previousStep()">Retour</button>
+      <button class="btn btn-custom mt-3" (click)="nextStep()">Suivant</button>
+    </div>
+  
+    <!-- Étape 3 : Informations finales -->
+    <div *ngIf="step === 2">
+      <h4>Finalisation</h4>
+      <form [formGroup]="costForm">
+        <label>Marge bénéficiaire (%)</label>
+        <input type="number" class="form-control" formControlName="profitMargin">
+  
+        <label>Marge d'erreur (%)</label>
+        <input type="number" class="form-control" formControlName="errorMargin">
+  
+        <label>Nombre total d'unités produites</label>
+        <input type="number" class="form-control" formControlName="totalUnits">
+      </form>
+      <button class="btn btn-outline-primary mt-3" (click)="previousStep()">Retour</button>
+      <button class="btn btn-custom mt-3" (click)="calculateCost()">Calculer</button>
+    </div>
+  
+    <!-- Étape 4 : Résultats -->
+    <div *ngIf="step === 3">
+      <h4>Résultats</h4>
+      <p><strong>Coût total de production :</strong> {{ totalCost | number:'1.2-2' }} €</p>
+<p><strong>Coût unitaire :</strong> {{ unitCost | number:'1.2-2' }} €</p>
+<p><strong>Prix de vente recommandé :</strong> {{ suggestedPrice | number:'1.2-2' }} €</p>
+
+      <button class="btn btn-custom mt-3" (click)="step = 0">Recommencer</button>
+    </div>
+  </div>
+  
