@@ -7,17 +7,20 @@ body {
   padding-top: 56px;
   background-color: #f3eef1 !important;
 }
-
+.main-container {
+  flex: 1; /* ✅ Prend tout l'espace dispo sauf le footer */
+  min-height: 80vh;
+}
 .bg-custom {
   background-color: #f3eef1 !important
 }
 
 .bg-custom-dark {
-  background-color: #6e944b !important;
+  background: linear-gradient(to right, #6e944b, #5b2c4fcc);
 }
 
 thead th {
-  background-color: #5b2c4fcc !important;
+  background: linear-gradient(to right, #6e944b, #5b2c4fcc);
   color: white !important;
 }
 
@@ -107,13 +110,6 @@ thead th {
   }
 }
 
-.btn-outline-primary {
-  &:hover {
-    .bi {
-      animation: bounce 0.5s;
-    }
-  }
-}
 
 @keyframes bounce {
 

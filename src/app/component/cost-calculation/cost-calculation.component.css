@@ -1,0 +1,52 @@
+.cost-category-container {
+    display: flex;
+    flex-wrap: wrap; /* ✅ Permet le retour à la ligne automatique */
+    gap: 10px; /* ✅ Ajoute un espace entre les éléments */
+  }
+  
+  .cost-category {
+    background-color: #f8f9fa; /* Couleur légère pour démarquer */
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Espace entre la case à cocher et le texte */
+    cursor: pointer;
+    border: 1px solid #ddd;
+  }
+  
+  .cost-category input {
+    margin-right: 5px;
+  }
+  
+.btn-outline-primary {
+    color: #4a1f36; /* Texte */
+    border-color: #4a1f36; /* Bordure */
+    background-color: transparent;
+    border-radius: 25px; /* Arrondi des bords */
+    padding: 8px 16px; /* Ajustement du padding */
+    transition: all 0.3s ease-in-out; /* Animation fluide */
+  }
+  
+  .btn-outline-primary:hover {
+    background-color: #4a1f36; /* Fond au survol */
+    color: white; /* Texte blanc */
+    border-color: #4a1f36;
+  }
+  
+  .btn-outline-primary:focus,
+  .btn-outline-primary:active {
+    background-color: #3a152a; /* Fond plus foncé au focus */
+    border-color: #4a1f36;
+    color: white;
+    box-shadow: 0 0 5px rgba(74, 31, 54, 0.5); /* Effet focus */
+  }
+  
+  .btn-outline-primary:disabled {
+    opacity: 0.6;
+    border-color: #4a1f36;
+    color: #4a1f36;
+    background-color: transparent;
+  }
+
+  
