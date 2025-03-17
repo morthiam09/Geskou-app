@@ -1,0 +1,30 @@
+<div class="container">
+    <h2>Historique des Coûts</h2>
+  
+    <div *ngFor="let cost of costs">
+      <h3>Calcul du {{ cost.calculationDate | date:'dd/MM/yyyy HH:mm' }}</h3>
+      <p><strong>Marge bénéficiaire :</strong> {{ cost.marginPercentage }}%</p>
+      <p><strong>Marge d'erreur :</strong> {{ cost.errorMargin }}%</p>
+      <p><strong>Nombre d'unités :</strong> {{ cost.totalUnitsProduced }}</p>
+  
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Catégorie</th>
+            <th>Paramètre</th>
+            <th>Valeur</th>
+            <th>Coût total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let detail of cost.details">
+            <td>{{ detail.category }}</td>
+            <td>{{ detail.parameterName }}</td>
+            <td>{{ detail.value }}</td>
+            <td>{{ detail.categoryTotalCost }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

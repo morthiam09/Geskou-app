@@ -15,6 +15,6 @@ export class ProductCardComponent {
   constructor(private router: Router) {}
 
   goToCostCalculation() {
-    this.router.navigate(['/cost-calculation', this.product.id]); // 🔹 Navigation avec l'ID du produit
+    this.router.navigate(['/cost-calculation', this.product.id]); // Navigation avec l'ID du produit
   }
 }

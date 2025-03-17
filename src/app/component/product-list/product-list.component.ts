@@ -15,19 +15,23 @@ export class ProductListComponent implements OnInit {
   constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
+    this.productService.loadProducts();
     this.productService.getProducts().subscribe(products => {
       this.products = products; // 🔹 Mise à jour automatique de la liste
     });
-
-    this.productService.loadProducts(); // 🔹 Charge les produits au démarrage
   }
 
   onDelete(id: number): void {
     if (confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) {
       this.productService.deleteProduct(id).subscribe(() => {
-        console.log('✅ Produit supprimé avec succès');
+        console.log('Produit supprimé avec succès');
       });
     }
+  }
+  addProduct(product: Product): void {
+    this.productService.addProduct(product).subscribe(() => {
+      this.productService.loadProducts();
+    });
   }
   
 }

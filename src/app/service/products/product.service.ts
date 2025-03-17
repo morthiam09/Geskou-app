@@ -40,6 +40,7 @@ export class ProductService {
   // Récupère tous les produits et met à jour le BehaviorSubject
   loadProducts(): void {
     this.http.get<Product[]>(this.apiUrl).subscribe(products => {
+      console.log('Produits chargés : ', products);
       this.productsSubject.next(products);
     });
   }
@@ -47,6 +48,8 @@ export class ProductService {
   
   // Retourne l'Observable du BehaviorSubject
   getProducts(): Observable<Product[]> {
+    this.loadProducts();
+    console.log('Produits reçus : ', this.products$);
     return this.products$;
   }
 
