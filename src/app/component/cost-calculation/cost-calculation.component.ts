@@ -18,6 +18,8 @@ export class CostCalculationComponent {
   suggestedPrice = 0;
   productId: number = 0; // Add this property
   categoryCosts: { [key: string]: number } = {}; // Add this property
+  errorMessage = ''; // Add this property for error messages
+  isLoading = false; // Add this property for loading state
   
   // Liste des catégories de coût avec leurs paramètres en français
   costCategories = [
@@ -52,7 +54,7 @@ export class CostCalculationComponent {
     // Champs finaux pour le calcul
     this.costForm.addControl('margeBeneficiaire', this.fb.control('', [Validators.required, Validators.min(0)]));
     this.costForm.addControl('margeErreur', this.fb.control('', [Validators.min(0)]));
-    this.costForm.addControl('totalUnites', this.fb.control('', [Validators.required, Validators.min(1)]));
+    this.costForm.addControl('totalUnitesProduites', this.fb.control('', [Validators.required, Validators.min(1)]));
   }
   
   // Fonction pour nettoyer les noms de champs
@@ -84,6 +86,7 @@ export class CostCalculationComponent {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   }
+
   // Effectuer le calcul du coût total
   calculateCost() {
     const formValues = this.costForm.value;
@@ -99,9 +102,10 @@ export class CostCalculationComponent {
       })),
       margeBeneficiaire: formValues.margeBeneficiaire,
       margeErreur: formValues.margeErreur,
-      totalUnitesProduites: formValues.totalUnites
+      totalUnitesProduites: formValues.totalUnitesProduites
     };
 
+    this.isLoading = true;
     this.costCalculationService.sendCostCalculation(requestData).subscribe({
       next: (response) => {
         this.totalCost = response.totalCost;
@@ -109,10 +113,13 @@ export class CostCalculationComponent {
         this.suggestedPrice = response.suggestedPrice;
         this.categoryCosts = response.categoryCosts;
         this.step = this.costCategories.length + 1;
+        this.isLoading = false;
       },
       error: (error) => {
         console.error('Erreur lors du calcul:', error);
+        this.errorMessage = 'Erreur lors du calcul. Veuillez réessayer.';
+        this.isLoading = false;
       }
     });
-  }  
+  }
 }

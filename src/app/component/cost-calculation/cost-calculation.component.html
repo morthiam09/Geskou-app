@@ -3,6 +3,11 @@
     <h2>Calcul du coût de production</h2>
   </div>
 
+  <!-- Affichage du message d'erreur -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
   <!-- Étape de saisie des catégories -->
   <div *ngIf="step < costCategories.length">
     <h4>{{ costCategories[step].name }}</h4>
@@ -28,10 +33,12 @@
       <input type="number" class="form-control" formControlName="margeErreur">
 
       <label>Nombre total d'unités produites</label>
-      <input type="number" class="form-control" formControlName="totalUnites">
+      <input type="number" class="form-control" formControlName="totalUnitesProduites">
     </form>
     <button class="btn btn-outline-primary mt-3" (click)="previousStep()">Retour</button>
-    <button class="btn btn-custom mt-3" (click)="calculateCost()">Calculer</button>
+    <button class="btn btn-custom mt-3" (click)="calculateCost()">CALCULER</button>
+
+    <div *ngIf="isLoading" class="spinner-border text-primary mt-3"></div>
   </div>
 
   <!-- Résultats finaux -->
@@ -40,6 +47,12 @@
     <p><strong>Coût total de production :</strong> {{ totalCost | number:'1.2-2' }} €</p>
     <p><strong>Coût unitaire :</strong> {{ unitCost | number:'1.2-2' }} €</p>
     <p><strong>Prix de vente recommandé :</strong> {{ suggestedPrice | number:'1.2-2' }} €</p>    
+
+    <!-- Affichage des coûts des catégories -->
+    <div *ngFor="let category of costCategories">
+      <p><strong>Coût de {{ category.name }} :</strong> {{ categoryCosts[category.name] | number:'1.2-2' }} €</p>
+    </div>
+
     <button class="btn btn-outline-primary mt-3" (click)="step = 0">Recommencer</button>
   </div>
 </div>
