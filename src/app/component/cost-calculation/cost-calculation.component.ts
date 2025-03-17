@@ -1,81 +1,125 @@
-import { CommonModule, CurrencyPipe, NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { CostCalculationService } from '../../service/costCalculation/cost-calculation.service';
 
 @Component({
   selector: 'app-cost-calculation',
   standalone: true,
-  imports: [NgIf, ReactiveFormsModule, CommonModule, NgFor],
+  imports: [NgIf, ReactiveFormsModule, CommonModule, HttpClientModule],
   templateUrl: './cost-calculation.component.html',
   styleUrl: './cost-calculation.component.css'
 })
 export class CostCalculationComponent {
-  productId!: number; // ID du produit sélectionné
   step = 0; // Étape actuelle
-  costForm: FormGroup;
-  totalCost = 0; // Coût total de production
-  unitCost = 0; // Coût unitaire
-  suggestedPrice = 0; // Prix de vente suggéré
-
+  totalCost = 0;
+  unitCost = 0;
+  suggestedPrice = 0;
+  productId: number = 0; // Add this property
+  categoryCosts: { [key: string]: number } = {}; // Add this property
+  errorMessage = ''; // Add this property for error messages
+  isLoading = false; // Add this property for loading state
+  
+  // Liste des catégories de coût avec leurs paramètres en français
   costCategories = [
-    { name: 'Matières premières', selected: false },
-    { name: 'Main-d\'œuvre', selected: false },
-    { name: 'Packaging', selected: false },
-    { name: 'Publicité', selected: false },
-    { name: 'Énergie', selected: false },
-    { name: 'Amortissement', selected: false },
-    { name: 'Frais indirects', selected: false }
+    { name: 'Matières premières', fields: ['quantité (kg)', 'prix unitaire (€)', 'transport (€)', 'pertes (€)'] },
+    { name: 'Main-d\'œuvre', fields: ['heures', 'taux horaire (€)', 'charges sociales (€)'] },
+    { name: 'Packaging', fields: ['cout Matériaux (€)', 'cout Confection (€)', 'volume Emballage'] },
+    { name: 'Publicité', fields: ['cout campagne (€)', 'cout créatif (€)', 'cout média (€)'] },
+    { name: 'Énergie', fields: ['consommation energie (KWH)', 'prix KWh (€)', 'couts fixes (€)'] },
+    { name: 'Amortissement', fields: ['valeur acquisition (€)', 'durée vie (année)', 'valeur résiduelle (€)'] },
+    { name: 'Frais indirects', fields: ['loyer (€)', 'entretien (€)', 'assurances (€)', 'services publics (€)', 'administration (€)'] }
   ];
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute) {
-    this.route.params.subscribe(params => {
-      this.productId = params['id'];
-    });
+  costForm: FormGroup;
 
-    this.costForm = this.fb.group({
-      costs: this.fb.array([]),
-      profitMargin: ['', [Validators.required, Validators.min(0)]],
-      errorMargin: ['', [Validators.min(0)]],
-      totalUnits: ['', [Validators.required, Validators.min(1)]]
-    });
+  constructor(
+    private fb: FormBuilder,
+    private costCalculationService: CostCalculationService
+  ) {
+    this.costForm = this.fb.group({});
+    this.initializeCategoryFields();
   }
 
-  get costsArray(): FormArray {
-    return this.costForm.get('costs') as FormArray;
+  // Initialisation des champs dynamiques
+  initializeCategoryFields() {
+    this.costCategories.forEach(category => {
+      category.fields.forEach(field => {
+        const sanitizedField = this.sanitizeFieldName(field);
+        this.costForm.addControl(sanitizedField, this.fb.control(0, Validators.min(0))); 
+      });
+    });
+  
+    // Champs finaux pour le calcul
+    this.costForm.addControl('margeBeneficiaire', this.fb.control('', [Validators.required, Validators.min(0)]));
+    this.costForm.addControl('margeErreur', this.fb.control('', [Validators.min(0)]));
+    this.costForm.addControl('totalUnitesProduites', this.fb.control('', [Validators.required, Validators.min(1)]));
   }
-
-  // Sélectionne/désélectionne une catégorie et ajoute/retire son champ de saisie
-  toggleCategory(category: any) {
-    category.selected = !category.selected;
-    if (category.selected) {
-      this.costsArray.push(this.fb.group({
-        name: category.name,
-        value: ['', [Validators.required, Validators.min(0)]]
-      }));
-    } else {
-      const index = this.costsArray.controls.findIndex(c => c.value.name === category.name);
-      this.costsArray.removeAt(index);
+  
+  // Fonction pour nettoyer les noms de champs
+  sanitizeFieldName(field: string): string {
+    return field.replace(/[^a-zA-Z0-9]/g, '_'); // Remplace les caractères spéciaux par '_'
+  }
+  
+  // Passe à l'étape suivante
+  nextStep() {
+    if (this.step < this.costCategories.length) {
+      this.step++;
     }
   }
 
-  // Passe à l’étape suivante
-  nextStep() {
-    this.step++;
-  }
-
-  // Revient à l’étape précédente
+  // Revient à l'étape précédente
   previousStep() {
-    this.step--;
+    if (this.step > 0) {
+      this.step--;
+    }
   }
 
-  // Calcule les coûts
+  // Passe une étape sans remplir
+  skipStep() {
+    this.nextStep();
+  }
+
+  getTitleCase(field: string): string {
+    return field.replace(/\w\S*/g, (txt) => {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  }
+
+  // Effectuer le calcul du coût total
   calculateCost() {
-    const values = this.costForm.value;
-    this.totalCost = values.costs.reduce((sum: number, cost: any) => sum + parseFloat(cost.value), 0);
-    this.unitCost = this.totalCost / values.totalUnits;
-    this.suggestedPrice = this.unitCost * (1 + values.profitMargin / 100);
-    this.step++;
+    const formValues = this.costForm.value;
+    
+    const requestData = {
+      productId: this.productId,
+      categories: this.costCategories.map(category => ({
+        name: category.name,
+        parameters: category.fields.reduce((acc, field) => {
+          acc[field] = formValues[this.sanitizeFieldName(field)] || 0;
+          return acc;
+        }, {} as { [key: string]: number })
+      })),
+      margeBeneficiaire: formValues.margeBeneficiaire,
+      margeErreur: formValues.margeErreur,
+      totalUnitesProduites: formValues.totalUnitesProduites
+    };
+
+    this.isLoading = true;
+    this.costCalculationService.sendCostCalculation(requestData).subscribe({
+      next: (response) => {
+        this.totalCost = response.totalCost;
+        this.unitCost = response.unitCost;
+        this.suggestedPrice = response.suggestedPrice;
+        this.categoryCosts = response.categoryCosts;
+        this.step = this.costCategories.length + 1;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Erreur lors du calcul:', error);
+        this.errorMessage = 'Erreur lors du calcul. Veuillez réessayer.';
+        this.isLoading = false;
+      }
+    });
   }
 }
