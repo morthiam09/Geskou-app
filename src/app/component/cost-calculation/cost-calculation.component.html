@@ -1,58 +1,97 @@
 <div class="container mt-4">
-  <div style="text-align: center; margin: 70px;">
-    <h2>Calcul du coût de production</h2>
+  <div class="text-center my-4">
+    <h2 class="fw-bold">Calcul du Coût de Production</h2>
   </div>
 
   <!-- Affichage du message d'erreur -->
-  <div *ngIf="errorMessage" class="alert alert-danger">
-    {{ errorMessage }}
+  <div *ngIf="errorMessage" class="alert alert-danger text-center">
+    <i class="bi bi-exclamation-triangle"></i> {{ errorMessage }}
   </div>
 
   <!-- Étape de saisie des catégories -->
-  <div *ngIf="step < costCategories.length">
-    <h4>{{ costCategories[step].name }}</h4>
+  <div *ngIf="step < costCategories.length" class="card shadow-lg p-4 bg-custom">
+    <h4 class="text-custom">{{ costCategories[step].name }}</h4>
     <form [formGroup]="costForm">
-      <div *ngFor="let field of costCategories[step].fields">
-        <label>{{ field }}</label>
+      <div *ngFor="let field of costCategories[step].fields" class="mb-3">
+        <label class="fw-bold">{{ field }}</label>
         <input type="number" class="form-control" [formControlName]="sanitizeFieldName(field)">
       </div>
     </form>
-    <button class="btn btn-outline-primary mt-3" (click)="previousStep()" *ngIf="step > 0">Retour</button>
-    <button class="btn mt-3" (click)="skipStep()">Passer</button>
-    <button class="btn btn-custom mt-3" (click)="nextStep()">Suivant</button>
+
+    <div class="d-flex justify-content-between mt-3">
+      <button class="btn btn-outline-primary" (click)="previousStep()" *ngIf="step > 0">
+        <i class="bi bi-arrow-left "></i> Retour
+      </button>
+      <button class="btn " (click)="skipStep()">Passer</button>
+      <button class="btn btn-custom" (click)="nextStep()">Suivant <i class="bi bi-arrow-right"></i></button>
+    </div>
   </div>  
 
   <!-- Dernière étape : Calcul du prix de vente -->
-  <div *ngIf="step === costCategories.length">
-    <h4>Finalisation</h4>
+  <div *ngIf="step === costCategories.length" class="card shadow-lg p-4 bg-custom">
+    <h4 class="text-custom">Finalisation</h4>
     <form [formGroup]="costForm">
-      <label>Marge bénéficiaire (%)</label>
-      <input type="number" class="form-control" formControlName="margeBeneficiaire">
+      <label class="fw-bold">Marge bénéficiaire (%)</label>
+      <input type="number" class="form-control mb-3" formControlName="margeBeneficiaire">
 
-      <label>Marge d'erreur (%)</label>
-      <input type="number" class="form-control" formControlName="margeErreur">
+      <label class="fw-bold">Marge d'erreur (%)</label>
+      <input type="number" class="form-control mb-3" formControlName="margeErreur">
 
-      <label>Nombre total d'unités produites</label>
-      <input type="number" class="form-control" formControlName="totalUnitesProduites">
+      <label class="fw-bold">Nombre total d'unités produites</label>
+      <input type="number" class="form-control mb-3" formControlName="totalUnitesProduites">
     </form>
-    <button class="btn btn-outline-primary mt-3" (click)="previousStep()">Retour</button>
-    <button class="btn btn-custom mt-3" (click)="calculateCost()">CALCULER</button>
 
-    <div *ngIf="isLoading" class="spinner-border text-primary mt-3"></div>
+    <div class="d-flex justify-content-between mt-3">
+      <button class="btn btn-outline-primary" (click)="previousStep()">
+        <i class="bi bi-arrow-left"></i> Retour
+      </button>
+      <button class="btn btn-custom" (click)="calculateCost()">CALCULER</button>
+    </div>
+
+    <div *ngIf="isLoading" class="text-center mt-3">
+      <div class="spinner-border text-primary"></div>
+      <p class="text-muted mt-2">Calcul en cours...</p>
+    </div>
   </div>
 
   <!-- Résultats finaux -->
-  <div *ngIf="step === costCategories.length + 1">
-    <h4>Résultats</h4>
-    <p><strong>Coût total de production :</strong> {{ totalCost | number:'1.2-2' }} €</p>
-    <p><strong>Coût unitaire :</strong> {{ unitCost | number:'1.2-2' }} €</p>
-    <p><strong>Prix de vente recommandé :</strong> {{ suggestedPrice | number:'1.2-2' }} €</p>    
-
-    <!-- Affichage des coûts des catégories -->
-    <div *ngFor="let category of costCategories">
-      <p><strong>Coût de {{ category.name }} :</strong> {{ categoryCosts[category.name] | number:'1.2-2' }} €</p>
+  <div *ngIf="step === costCategories.length + 1" class="card shadow-lg p-4 mt-4 bg-custom">
+    <h4 class="text-center">Résultats</h4>
+    
+    <div class="row mt-3">
+      <div class="col-md-4">
+        <div class="card bg-custom text-center shadow-sm p-3">
+          <h5 class="fw-bold">Coût total</h5>
+          <p class="fs-4 text-success fw-bold">{{ totalCost | number:'1.2-2' }} €</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card bg-custom text-center shadow-sm p-3">
+          <h5 class="fw-bold">Coût unitaire</h5>
+          <p class="fs-4 text-danger fw-bold">{{ unitCost | number:'1.2-2' }} €</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card bg-custom text-center shadow-sm p-3">
+          <h5 class="fw-bold">Prix conseillé</h5>
+          <p class="fs-4 text-primary fw-bold">{{ suggestedPrice | number:'1.2-2' }} €</p>
+        </div>
+      </div>
     </div>
 
-    <button class="btn btn-outline-primary mt-3" (click)="step = 0">Recommencer</button>
+    <!-- Affichage des coûts des catégories -->
+    <div class="mt-4">
+      <h5 class="fw-bold text-muted">Détail des coûts :</h5>
+      <div *ngFor="let category of costCategories" class="card p-3 my-2 shadow-sm bg-custom">
+        <h6 class="fw-bold text-dark">{{ category.name }}</h6>
+        <p class="text-muted">Coût : <strong>{{ categoryCosts[category.name] | number:'1.2-2' }} €</strong></p>
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <button class="btn btn-outline-primary" (click)="step = 0">
+        <i class="bi bi-arrow-clockwise"></i> Recommencer
+      </button>
+    </div>
   </div>
 </div>
