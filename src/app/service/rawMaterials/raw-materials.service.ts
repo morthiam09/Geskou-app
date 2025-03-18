@@ -11,7 +11,7 @@ export interface RawMaterial {
 
 @Injectable({ providedIn: 'root' })
 export class RawMaterialsService {
-  private apiUrl = 'http://localhost:8080/api/raw-materials'; // 🔹 URL de l'API Spring Boot
+  private apiUrl = 'http://localhost:8080/api/raw-materials'; // URL de l'API Spring Boot
   private materialsSubject = new BehaviorSubject<RawMaterial[]>([]); // Initialisation d'un BehaviorSubject
 
 
