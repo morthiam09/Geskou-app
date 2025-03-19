@@ -1,0 +1,91 @@
+<!-- Section: Register Page -->
+<section class="bg-custom text-light py-5">
+  <div class="container text-center text-lg-start">
+    <div class="row align-items-center justify-content-center">
+      <div class="col-lg-5 position-relative">
+        <div class="floating-shape-1"></div>
+        <div class="floating-shape-2"></div>
+
+        <div class="glass-bg shadow-lg">
+          <h4 class="text-center text-black mb-4">S'inscrire</h4>
+
+          <ng-container *ngIf="!isSuccessful; else successMessage">
+            <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+
+              <!-- First Name -->
+              <div class="mb-3">
+                <label class="form-label text-black">Prénom</label>
+                <input type="text" class="form-control" placeholder="Entrez votre prénom"
+                  [(ngModel)]="form.firstName" name="firstName" required minlength="3" maxlength="20" #firstName="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && firstName.errors }">
+                
+                <div class="invalid-feedback" *ngIf="firstName.errors && f.submitted">
+                  <div *ngIf="firstName.errors['required']">Prénom obligatoire</div>
+                  <div *ngIf="firstName.errors['minlength']">Le prénom doit comporter au minimum 3 caractères</div>
+                  <div *ngIf="firstName.errors['maxlength']">Le prénom doit comporter au maximum 20 caractères</div>
+                </div>
+              </div>
+
+              <!-- Last Name -->
+              <div class="mb-3">
+                <label class="form-label text-black">Nom</label>
+                <input type="text" class="form-control" placeholder="Entrez votre nom"
+                  [(ngModel)]="form.lastName" name="lastName" required #lastName="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && lastName.errors }">
+                
+                <div class="invalid-feedback" *ngIf="lastName.errors && f.submitted">
+                  Nom obligatoire
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="mb-3">
+                <label class="form-label text-black">Email</label>
+                <input type="email" class="form-control" placeholder="Entrez votre email"
+                  [(ngModel)]="form.email" name="email" required email #email="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && email.errors }">
+                
+                <div class="invalid-feedback" *ngIf="email.errors && f.submitted">
+                  <div *ngIf="email.errors['required']">L'adresse email est obligatoire</div>
+                  <div *ngIf="email.errors['email']">L'adresse email doit être valide</div>
+                </div>
+              </div>
+
+              <!-- Password -->
+              <div class="mb-3">
+                <label class="form-label text-black">Mot de passe</label>
+                <input type="password" class="form-control" placeholder="Entrez votre mot de passe"
+                  [(ngModel)]="form.password" name="password" required minlength="6" #password="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && password.errors }">
+                
+                <div class="invalid-feedback" *ngIf="password.errors && f.submitted">
+                  <div *ngIf="password.errors['required']">Le mot de passe est obligatoire</div>
+                  <div *ngIf="password.errors['minlength']">Le mot de passe doit comporter au minimum 6 caractères</div>
+                </div>
+              </div>
+
+              <!-- Register Button -->
+              <div class="d-grid">
+                <button type="submit" class="btn fw-bold btn-custom">Créer un compte</button>
+              </div>
+
+              <!-- Error Message -->
+              <div class="form-group">
+                <div class="alert alert-danger" role="alert" *ngIf="f.submitted && isSignUpFailed">
+                  Échec d'inscription : {{ errorMessage }}
+                </div>
+              </div>
+
+            </form>
+          </ng-container>
+
+          <!-- Success Message -->
+          <ng-template #successMessage>
+            <div class="alert alert-success">Votre compte a été créé avec succès!</div>
+          </ng-template>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
