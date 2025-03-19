@@ -1,0 +1,66 @@
+.bg-radial-gradient {
+  background: radial-gradient(circle at 0% 0%, #2a2a72 15%, #1d2671 35%, #0f0c29 75%, #0f0c29 100%);
+}
+
+.floating-shape-1 {
+  height: 180px;
+  width: 180px;
+  position: absolute;
+  top: -40px;
+  left: -90px;
+  background: radial-gradient(#6a11cb, #2575fc);
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+.floating-shape-2 {
+  border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+  bottom: -40px;
+  right: -90px;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(#6a11cb, #2575fc);
+  position: absolute;
+  opacity: 0.6;
+}
+
+.glass-bg {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 35px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.btn-glass {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.btn-social {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-social:hover {
+  transform: scale(1.1);
+}
+.floating-shape-1 {
+  background: linear-gradient(to right, #5c08b6, rgb(215, 223, 216));
+}
+
+.floating-shape-2 {
+  background: radial-gradient(circle, #6a11cb, rgb(104, 218, 104));
+}

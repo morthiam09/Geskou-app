@@ -6,9 +6,22 @@ import { NgModule } from '@angular/core';
 import { LayoutComponent } from './component/layout/layout.component';
 import { ProductGridComponent } from './component/product-grid/product-grid.component';
 import { CostCalculationComponent } from './component/cost-calculation/cost-calculation.component';
+import { HomeComponent } from './component/home/home.component';
+import { LoginComponent } from './component/login/login.component';
+import { RegisterComponent } from './component/register/register.component';
+import { ProfileComponent } from './component/profile/profile.component';
+import { BoardUserComponent } from './component/board-user/board-user.component';
+import { BoardAdminComponent } from './component/board-admin/board-admin.component';
 
 export const routes: Routes = [
-    { path: '', component: LayoutComponent },
+    //{ path: '', component: LayoutComponent },
+    { path: '', redirectTo: 'home', pathMatch: 'full' },
+    { path: 'home', component: HomeComponent },
+    { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
+    { path: 'profile', component: ProfileComponent },
+    { path: 'user', component: BoardUserComponent },
+    { path: 'admin', component: BoardAdminComponent },
     {
         path: 'manage-products', component: ProductManagementComponent,
         children: [
